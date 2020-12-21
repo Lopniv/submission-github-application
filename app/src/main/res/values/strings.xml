@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Submission2Github</string>
+    <string name="search_user">Search user here!</string>
+    <string name="username">Username</string>
+    <string name="id_user">ID User</string>
+</resources>
