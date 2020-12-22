@@ -25,11 +25,11 @@ interface UsersApi {
     @Headers("Authorization: token fc389f9526f6a885c233df67c09fb8f4a53cf843")
     fun followers(
         @Path("user") user: String
-    ): ArrayList<Item>
+    ): Single<ArrayList<Item>>
 
     @GET("users/{user}/following")
     @Headers("Authorization: token fc389f9526f6a885c233df67c09fb8f4a53cf843")
     fun following(
         @Path("user") user: String
-    ): ArrayList<Item>
+    ): Single<ArrayList<Item>>
 }

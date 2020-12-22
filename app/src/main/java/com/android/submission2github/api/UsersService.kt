@@ -20,11 +20,11 @@ class UsersService {
         return api.user(user)
     }
 
-    fun followers(user: String): ArrayList<Item>{
+    fun followers(user: String): Single<ArrayList<Item>>{
         return api.followers(user)
     }
 
-    fun following(user: String): ArrayList<Item>{
+    fun following(user: String): Single<ArrayList<Item>>{
         return api.following(user)
     }
 }

@@ -1,5 +1,7 @@
 package com.android.submission2github.api
 
+import com.android.submission2github.viewmodel.FollowerViewModel
+import com.android.submission2github.viewmodel.FollowingViewModel
 import com.android.submission2github.viewmodel.SearchUserViewModel
 import dagger.Component
 
@@ -7,4 +9,6 @@ import dagger.Component
 interface ApiComponent {
     fun inject(service: UsersService)
     fun inject(searchUserViewModel: SearchUserViewModel)
+    fun inject(followerViewModel: FollowerViewModel)
+    fun inject(followingViewModel: FollowingViewModel)
 }

@@ -62,6 +62,15 @@
                 android:layout_below="@id/view"
                 tools:listitem="@layout/item_user"/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_not_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/data_not_found"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black"
+                android:textSize="24sp"/>
+
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

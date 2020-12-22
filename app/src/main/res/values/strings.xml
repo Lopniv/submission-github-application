@@ -3,4 +3,8 @@
     <string name="search_user">Search user here!</string>
     <string name="username">Username</string>
     <string name="id_user">ID User</string>
+    <string name="type_user">Type User</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="data_not_found">Data not Found!</string>
 </resources>
