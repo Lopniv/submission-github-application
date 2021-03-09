@@ -6,8 +6,6 @@ Application features:
 3. Retrieve data from API github
 4. ViewModel
 
-![alt text](https://github.com/Lopniv/Submission2Github/blob/main/screenshot_1.png)
-
-![alt text](https://github.com/Lopniv/Submission2Github/blob/main/screenshot_2.png)
-
-![alt text](https://github.com/Lopniv/Submission2Github/blob/main/screenshot_3.png)
+<img src="https://github.com/Lopniv/Submission2Github/blob/main/screenshot_1.png" width="20%"></img> 
+<img src="https://github.com/Lopniv/Submission2Github/blob/main/screenshot_2.png" width="20%"></img> 
+<img src="https://github.com/Lopniv/Submission2Github/blob/main/screenshot_3.png" width="20%"></img>
