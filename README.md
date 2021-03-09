@@ -1,4 +1,4 @@
-# Submission2Github
+# Github Application Project
 The task of the dicoding project "Belajar Fundamental Aplikasi Android" by using the github API to retrieve user data.
 Application features:
 1. Search
