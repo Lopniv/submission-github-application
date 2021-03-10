@@ -18,7 +18,7 @@ class ApiModule {
             .build()
             .create(UsersApi::class.java)
     }
-    @Provides()
+    @Provides
     fun provideUsersService(): UsersService {
         return UsersService()
     }

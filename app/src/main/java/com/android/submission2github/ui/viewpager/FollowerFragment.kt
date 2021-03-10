@@ -32,7 +32,7 @@ class FollowerFragment(var username: String) : Fragment() {
     }
 
     private fun initiate(){
-        userListAdapter = activity?.let { UserListAdapter(arrayListOf(), it) }
+        userListAdapter = activity?.let { UserListAdapter(arrayListOf()) }
     }
 
     private fun getData(){

@@ -4,7 +4,6 @@ import com.android.submission2github.model.Item
 import com.android.submission2github.model.SearchResponse
 import io.reactivex.Single
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 

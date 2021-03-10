@@ -6,16 +6,14 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.android.submission2github.ui.viewpager.FollowerFragment
 import com.android.submission2github.ui.viewpager.FollowingFragment
 
-class PagerAdapter(fm: FragmentManager, var username: String): FragmentPagerAdapter(fm){
+class PagerAdapter(fm: FragmentManager, var username: String): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
 
     private val pages = listOf(
         FollowerFragment(username),
         FollowingFragment(username)
     )
 
-    override fun getItem(position: Int): Fragment {
-        return pages[position]
-    }
+    override fun getItem(position: Int): Fragment = pages[position]
 
     override fun getCount(): Int {
         return pages.size

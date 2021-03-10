@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_user.view.*
 
 
-class UserListAdapter(var users: ArrayList<Item>, var context: Context) : RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
+class UserListAdapter(var users: ArrayList<Item>) : RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
 
     var userListListener: UserListListener? = null
 
@@ -27,7 +27,7 @@ class UserListAdapter(var users: ArrayList<Item>, var context: Context) : Recycl
     )
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
-        holder.bind(users[position], context)
+        holder.bind(users[position])
         holder.itemView.setOnClickListener {
             userListListener?.onItemUserList(it, users[position], users)
         }
@@ -40,10 +40,10 @@ class UserListAdapter(var users: ArrayList<Item>, var context: Context) : Recycl
         private val idUser = view.tv_id
         private val profilePicture = view.iv_user_profile
         @SuppressLint("SetTextI18n")
-        fun bind(user: Item, context: Context) {
+        fun bind(user: Item) {
             username.text = user.login
             idUser.text = "${user.id}"
-            Glide.with(context).load(user.avatarUrl).into(profilePicture)
+            Glide.with(itemView.context).load(user.avatarUrl).into(profilePicture)
         }
     }
 }

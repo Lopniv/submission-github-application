@@ -16,10 +16,6 @@ class UsersService {
         return api.searchUser(user)
     }
 
-    fun user(user: String): Single<Item>{
-        return api.user(user)
-    }
-
     fun followers(user: String): Single<ArrayList<Item>>{
         return api.followers(user)
     }

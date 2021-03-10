@@ -28,7 +28,7 @@ class ListUserActivity : AppCompatActivity(), UserListListener {
 
     private var username: String? = null
     private lateinit var viewModel: SearchUserViewModel
-    private val userListAdapter = UserListAdapter(arrayListOf(), this)
+    private val userListAdapter = UserListAdapter(arrayListOf())
     private var userList: ArrayList<Item>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
