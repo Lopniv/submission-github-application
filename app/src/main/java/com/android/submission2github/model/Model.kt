@@ -14,11 +14,11 @@ data class SearchResponse(
 
 @Parcelize
 data class Item(
-    val login: String,
-    val id: Int,
+    var login: String? = null,
+    var id: Int = 0,
     @SerializedName("node_id")
-    val nodeId: String,
+    var nodeId: String? = null,
     @SerializedName("avatar_url")
-    val avatarUrl: String,
-    val type: String
+    var avatarUrl: String? = null,
+    var type: String? = null
 ): Parcelable

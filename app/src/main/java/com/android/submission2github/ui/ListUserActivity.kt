@@ -123,4 +123,12 @@ class ListUserActivity : AppCompatActivity(), UserListListener {
         detail.putExtra(KEY_DETAIL_DATA, item)
         startActivity(detail)
     }
+
+    override fun addFavoriteUser(view: View, item: Item, listItem: ArrayList<Item>) {
+        checkOnDatabase()
+    }
+
+    private fun checkOnDatabase() {
+
+    }
 }

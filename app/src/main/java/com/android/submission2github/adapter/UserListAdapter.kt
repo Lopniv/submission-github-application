@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.submission2github.R
 import com.android.submission2github.model.Item
@@ -31,6 +32,9 @@ class UserListAdapter(var users: ArrayList<Item>, var context: Context) : Recycl
         holder.itemView.setOnClickListener {
             userListListener?.onItemUserList(it, users[position], users)
         }
+        holder.addFavorite.setOnClickListener {
+            userListListener?.addFavoriteUser(it, users[position], users)
+        }
     }
 
     override fun getItemCount() = users.size
@@ -39,6 +43,7 @@ class UserListAdapter(var users: ArrayList<Item>, var context: Context) : Recycl
         private val username = view.tv_username
         private val idUser = view.tv_id
         private val profilePicture = view.iv_user_profile
+        val addFavorite: ImageView = view.btn_favorite
         @SuppressLint("SetTextI18n")
         fun bind(user: Item, context: Context) {
             username.text = user.login

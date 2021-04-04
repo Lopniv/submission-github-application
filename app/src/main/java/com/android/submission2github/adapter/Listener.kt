@@ -5,4 +5,5 @@ import com.android.submission2github.model.Item
 
 interface UserListListener {
     fun onItemUserList(view: View, item: Item, listItem: ArrayList<Item>)
+    fun addFavoriteUser(view: View, item: Item, listItem: ArrayList<Item>)
 }
