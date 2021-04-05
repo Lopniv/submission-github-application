@@ -11,15 +11,22 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.submission2github.R
 import com.android.submission2github.adapter.UserListAdapter
+import com.android.submission2github.db.UserFavoriteHelper
+import com.android.submission2github.helper.MappingHelper
 import com.android.submission2github.model.Item
 import com.android.submission2github.viewmodel.FollowingViewModel
 import kotlinx.android.synthetic.main.fragment_following.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class FollowingFragment(var username: String) : Fragment() {
 
-    private lateinit var viewModel: FollowingViewModel
-    private var userListAdapter: UserListAdapter? = null
     private var userList: ArrayList<Item>? = null
+    private var userListAdapter: UserListAdapter? = null
+
+    private lateinit var viewModel: FollowingViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -28,7 +35,7 @@ class FollowingFragment(var username: String) : Fragment() {
     }
 
     private fun initiate(){
-        userListAdapter = activity?.let { UserListAdapter(arrayListOf(), it) }
+        userListAdapter = UserListAdapter(arrayListOf(), requireContext())
     }
 
     private fun getData(){

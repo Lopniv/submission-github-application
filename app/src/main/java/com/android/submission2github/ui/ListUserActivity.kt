@@ -1,5 +1,6 @@
 package com.android.submission2github.ui
 
+import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,50 +11,75 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.submission2github.R
 import com.android.submission2github.adapter.UserListAdapter
 import com.android.submission2github.adapter.UserListListener
+import com.android.submission2github.databinding.ActivityListUserBinding
+import com.android.submission2github.db.DatabaseContract
+import com.android.submission2github.db.UserFavoriteHelper
+import com.android.submission2github.helper.MappingHelper
 import com.android.submission2github.model.Item
 import com.android.submission2github.ui.DetailActivity.Companion.KEY_DETAIL_DATA
 import com.android.submission2github.viewmodel.SearchUserViewModel
-import kotlinx.android.synthetic.main.activity_list_user.*
-import kotlinx.android.synthetic.main.activity_list_user.et_search_user
-import kotlinx.android.synthetic.main.activity_list_user.loading_view
-import kotlinx.android.synthetic.main.activity_list_user.rv_user_list
-import kotlinx.android.synthetic.main.activity_list_user.swipeRefreshLayout
-import kotlinx.android.synthetic.main.activity_list_user.tv_not_found
-import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class ListUserActivity : AppCompatActivity(), UserListListener {
 
     private var username: String? = null
-    private lateinit var viewModel: SearchUserViewModel
-    private val userListAdapter = UserListAdapter(arrayListOf(), this)
     private var userList: ArrayList<Item>? = null
+    private var favoriteList: ArrayList<Item>? = null
+    private var userListAdapter: UserListAdapter? = null
+
+    private lateinit var binding: ActivityListUserBinding
+    private lateinit var viewModel: SearchUserViewModel
+    private lateinit var userFavoriteHelper: UserFavoriteHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list_user)
+        binding = ActivityListUserBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        loadFavoriteAsync()
         initiateValue()
         getData()
         inputUsername()
     }
 
+    private fun loadFavoriteAsync() {
+        GlobalScope.launch(Dispatchers.Main) {
+            userFavoriteHelper = UserFavoriteHelper.getInstance(applicationContext)
+            userFavoriteHelper.open()
+            val deferredFavorites = async(Dispatchers.IO) {
+                val cursor = userFavoriteHelper.queryAll()
+                MappingHelper.mapCursorToArrayList(cursor)
+            }
+            userFavoriteHelper.close()
+            favoriteList = deferredFavorites.await()
+//            favoriteList = if (favorite.size > 0) {
+//                favorite
+//            } else {
+//                ArrayList()
+//            }
+        }
+    }
+
     private fun initiateValue(){
-        userListAdapter.userListListener = this
+        userListAdapter = UserListAdapter(arrayListOf(), this)
+        userListAdapter!!.userListListener = this
     }
 
     private fun getData(){
         username = intent.getStringExtra("USERNAME")
         username?.let {
             Log.e("TAG", "USERNAME: $it")
-            et_search_user.setText(it)
+            binding.etSearchUser.setText(it)
             loadData(it)
         }
     }
 
     private fun inputUsername(){
-        et_search_user.setOnEditorActionListener { v, actionId, event ->
+        binding.etSearchUser.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     search()
@@ -67,12 +93,12 @@ class ListUserActivity : AppCompatActivity(), UserListListener {
     private fun loadData(username: String){
         viewModel = ViewModelProviders.of(this).get(SearchUserViewModel::class.java)
         viewModel.refresh(username)
-        rv_user_list.apply {
+        binding.rvUserList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = userListAdapter
         }
-        swipeRefreshLayout.setOnRefreshListener {
-            swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = false
             viewModel.refresh(username)
         }
         observeViewModel()
@@ -83,23 +109,23 @@ class ListUserActivity : AppCompatActivity(), UserListListener {
             user?.let {
                 if (it.isEmpty()) {
                     Log.e("TAG", "NULL ITEM: $it")
-                    tv_not_found.visibility = View.VISIBLE
+                    binding.tvNotFound.visibility = View.VISIBLE
                     userList = it
                 } else {
                     Log.e("TAG", "ITEM: $it")
-                    tv_not_found.visibility = View.GONE
-                    rv_user_list.visibility = View.VISIBLE
-                    userListAdapter.updateUsers(it)
+                    binding.tvNotFound.visibility = View.GONE
+                    binding.rvUserList.visibility = View.VISIBLE
+                    userListAdapter?.updateUsers(it)
                     userList = it
                 }
             }
         })
         viewModel.loading.observe(this, Observer { isLoading ->
             isLoading?.let {
-                loading_view.visibility = if (it) View.VISIBLE else View.GONE
+                binding.loadingView.visibility = if (it) View.VISIBLE else View.GONE
                 if (it) {
-                    tv_not_found.visibility = View.GONE
-                    rv_user_list.visibility = View.GONE
+                    binding.tvNotFound.visibility = View.GONE
+                    binding.rvUserList.visibility = View.GONE
                 }
             }
         })
@@ -107,10 +133,10 @@ class ListUserActivity : AppCompatActivity(), UserListListener {
 
     private fun search(){
         when {
-            et_search_user.text.isNullOrEmpty() ->
+            binding.etSearchUser.text.isNullOrEmpty() ->
                 Toast.makeText(this, "Fill the input field!", Toast.LENGTH_SHORT).show()
             else -> {
-                username = et_search_user.text.toString().trim()
+                username = binding.etSearchUser.text.toString().trim()
                 username?.let {
                     loadData(it)
                 }
@@ -125,10 +151,23 @@ class ListUserActivity : AppCompatActivity(), UserListListener {
     }
 
     override fun addFavoriteUser(view: View, item: Item, listItem: ArrayList<Item>) {
-        checkOnDatabase()
+        if (favoriteList?.any { it.id == item.id} == true){
+            Toast.makeText(this, "User already favorite list", Toast.LENGTH_SHORT).show()
+        } else {
+            insertValue(item)
+        }
     }
 
-    private fun checkOnDatabase() {
+    private fun insertValue(item: Item) {
+        userFavoriteHelper.open()
 
+        val values = ContentValues()
+        values.put(DatabaseContract.UserColumn._ID, item.id)
+        values.put(DatabaseContract.UserColumn.LOGIN, item.login)
+        values.put(DatabaseContract.UserColumn.AVATAR_URL, item.avatarUrl)
+        values.put(DatabaseContract.UserColumn.NODE_ID, item.nodeId)
+        values.put(DatabaseContract.UserColumn.TYPE, item.type)
+
+        userFavoriteHelper.insert(values)
     }
 }

@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.submission2github.R
 import com.android.submission2github.adapter.UserListAdapter
+import com.android.submission2github.db.UserFavoriteHelper
+import com.android.submission2github.helper.MappingHelper
 import com.android.submission2github.model.Item
 import com.android.submission2github.viewmodel.FollowerViewModel
 import kotlinx.android.synthetic.main.fragment_follower.*
@@ -18,12 +20,17 @@ import kotlinx.android.synthetic.main.fragment_follower.loading_view
 import kotlinx.android.synthetic.main.fragment_follower.rv_user_list
 import kotlinx.android.synthetic.main.fragment_follower.swipeRefreshLayout
 import kotlinx.android.synthetic.main.fragment_follower.tv_not_found
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class FollowerFragment(var username: String) : Fragment() {
 
-    private lateinit var viewModel: FollowerViewModel
-    private var userListAdapter: UserListAdapter? = null
     private var userList: ArrayList<Item>? = null
+    private var userListAdapter: UserListAdapter? = null
+
+    private lateinit var viewModel: FollowerViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -32,7 +39,7 @@ class FollowerFragment(var username: String) : Fragment() {
     }
 
     private fun initiate(){
-        userListAdapter = activity?.let { UserListAdapter(arrayListOf(), it) }
+        userListAdapter = UserListAdapter(arrayListOf(), requireContext())
     }
 
     private fun getData(){

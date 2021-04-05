@@ -112,7 +112,7 @@ class UserFavoriteHelper(context: Context) {
      *
      * @return hasil getGetAllNotes berbentuk array model favorite
      */
-    fun getAllNotes(): ArrayList<Item> {
+    fun getAllFavorites(): ArrayList<Item> {
         val arrayList = ArrayList<Item>()
         val cursor = database.query(DATABASE_TABLE, null, null, null, null, null,
                 "${BaseColumns._ID} ASC", null)
@@ -142,7 +142,7 @@ class UserFavoriteHelper(context: Context) {
      * @param favorite model item yang akan dimasukkan
      * @return id dari data yang baru saja dimasukkan
      */
-    fun insertNote(favorite: Item): Long {
+    fun insertFavorite(favorite: Item): Long {
         val args = ContentValues()
         args.put(LOGIN, favorite.login)
         args.put(NODE_ID, favorite.nodeId)
@@ -153,12 +153,12 @@ class UserFavoriteHelper(context: Context) {
 
 
     /**
-     * Gunakan method ini untuk updateNote
+     * Gunakan method ini untuk update Favorite
      *
      * @param favorite model item yang akan diubah
      * @return int jumlah dari row yang ter-updateNote, jika tidak ada yang diupdate maka nilainya 0
      */
-    fun updateNote(favorite: Item): Int {
+    fun updateFavorite(favorite: Item): Int {
         val args = ContentValues()
         args.put(LOGIN, favorite.login)
         args.put(NODE_ID, favorite.nodeId)
@@ -173,7 +173,7 @@ class UserFavoriteHelper(context: Context) {
      * @param id id yang akan di deleteNote
      * @return int jumlah row yang di deleteNote
      */
-    fun deleteNote(id: Int): Int {
+    fun deleteFavorite(id: Int): Int {
         return database.delete(TABLE_NAME, "${BaseColumns._ID} = '$id'", null)
     }
 }
