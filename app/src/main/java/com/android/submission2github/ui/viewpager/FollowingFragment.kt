@@ -2,15 +2,17 @@ package com.android.submission2github.ui.viewpager
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.submission2github.adapter.FavoriteListener
 import com.android.submission2github.adapter.UserListAdapter
 import com.android.submission2github.databinding.FragmentFollowingBinding
 import com.android.submission2github.model.Item
+import com.android.submission2github.utils.Utils.loadFavoriteAsync
 import com.android.submission2github.viewmodel.FollowingViewModel
 
 class FollowingFragment(var username: String) : Fragment() {
@@ -30,6 +32,7 @@ class FollowingFragment(var username: String) : Fragment() {
 
     private fun initiate(){
         userListAdapter = UserListAdapter(arrayListOf(), requireContext())
+        userListAdapter?.favoriteListener = favoriteUser
     }
 
     private fun getData(){
@@ -77,9 +80,22 @@ class FollowingFragment(var username: String) : Fragment() {
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentFollowingBinding.inflate(inflater, container, false)
         return b?.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
+    private val favoriteUser = object: FavoriteListener {
+        override fun addFavoriteUser(view: View, item: Item, listItem: ArrayList<Item>) {
+            b?.root?.let { loadFavoriteAsync(item, requireContext(), it, true) }
+        }
     }
 }

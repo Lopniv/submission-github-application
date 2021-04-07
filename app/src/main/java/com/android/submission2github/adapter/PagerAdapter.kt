@@ -21,7 +21,7 @@ class PagerAdapter(fm: FragmentManager, var username: String): FragmentPagerAdap
         return pages.size
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return when(position){
             0 -> "Follower"
             else -> "Following"
