@@ -6,25 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.submission2github.R
 import com.android.submission2github.adapter.UserListAdapter
-import com.android.submission2github.db.UserFavoriteHelper
-import com.android.submission2github.helper.MappingHelper
+import com.android.submission2github.databinding.FragmentFollowingBinding
 import com.android.submission2github.model.Item
 import com.android.submission2github.viewmodel.FollowingViewModel
-import kotlinx.android.synthetic.main.fragment_following.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 class FollowingFragment(var username: String) : Fragment() {
 
     private var userList: ArrayList<Item>? = null
     private var userListAdapter: UserListAdapter? = null
+    private var binding: FragmentFollowingBinding? = null
+    private val b get() = binding
 
     private lateinit var viewModel: FollowingViewModel
 
@@ -45,39 +39,39 @@ class FollowingFragment(var username: String) : Fragment() {
     private fun loadData(username: String){
         viewModel = activity?.let { ViewModelProviders.of(it).get(FollowingViewModel::class.java) }!!
         viewModel.refresh(username)
-        rv_user_list.apply {
+        b?.rvUserList?.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = userListAdapter
         }
-        swipeRefreshLayout.setOnRefreshListener {
-            swipeRefreshLayout.isRefreshing = false
+        b?.swipeRefreshLayout?.setOnRefreshListener {
+            b?.swipeRefreshLayout?.isRefreshing = false
             viewModel.refresh(username)
         }
         observeViewModel()
     }
 
     private fun observeViewModel(){
-        viewModel.users.observe(viewLifecycleOwner, Observer { user ->
+        viewModel.users.observe(viewLifecycleOwner, { user ->
             user?.let {
                 if (it.isEmpty()) {
                     Log.e("TAG", "NULL ITEM: $it")
-                    tv_not_found.visibility = View.VISIBLE
+                    b?.tvNotFound?.visibility = View.VISIBLE
                     userList = it
                 } else {
                     Log.e("TAG", "ITEM: $it")
-                    tv_not_found.visibility = View.GONE
-                    rv_user_list.visibility = View.VISIBLE
+                    b?.tvNotFound?.visibility = View.GONE
+                    b?.rvUserList?.visibility = View.VISIBLE
                     userListAdapter?.updateUsers(it)
                     userList = it
                 }
             }
         })
-        viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
+        viewModel.loading.observe(viewLifecycleOwner, { isLoading ->
             isLoading?.let {
-                loading_view.visibility = if (it) View.VISIBLE else View.GONE
+                b?.loadingView?.visibility = if (it) View.VISIBLE else View.GONE
                 if (it) {
-                    tv_not_found.visibility = View.GONE
-                    rv_user_list.visibility = View.GONE
+                    b?.tvNotFound?.visibility = View.GONE
+                    b?.rvUserList?.visibility = View.GONE
                 }
             }
         })
@@ -85,7 +79,7 @@ class FollowingFragment(var username: String) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_following, container, false)
+        binding = FragmentFollowingBinding.inflate(inflater, container, false)
+        return b?.root
     }
 }

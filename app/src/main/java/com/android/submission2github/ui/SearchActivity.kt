@@ -1,23 +1,25 @@
 package com.android.submission2github.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
-import androidx.appcompat.widget.AppCompatEditText
-import com.android.submission2github.R
-import kotlinx.android.synthetic.main.activity_search.*
+import androidx.appcompat.app.AppCompatActivity
+import com.android.submission2github.databinding.ActivitySearchBinding
+import com.android.submission2github.utils.Utils
 
 class SearchActivity : AppCompatActivity() {
+
+    private lateinit var b : ActivitySearchBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        b = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(b.root)
         inputUsername()
     }
 
     private fun inputUsername(){
-        et_search_user.setOnEditorActionListener { v, actionId, event ->
+        b.etSearchUser.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     search()
@@ -30,11 +32,11 @@ class SearchActivity : AppCompatActivity() {
 
     private fun search() {
         when {
-            et_search_user.text.isNullOrEmpty() ->
-                Toast.makeText(this, "Fill the input field!", Toast.LENGTH_SHORT).show()
+            b.etSearchUser.text.isNullOrEmpty() ->
+                Utils.showSnackbarMessage(b.root, "Fill the input field!")
             else -> {
                 val search = Intent(this, ListUserActivity::class.java)
-                search.putExtra("USERNAME", et_search_user.text.toString().trim())
+                search.putExtra("USERNAME", b.etSearchUser.text.toString().trim())
                 startActivity(search)
             }
         }

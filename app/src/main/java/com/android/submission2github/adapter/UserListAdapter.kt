@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 class UserListAdapter(var users: ArrayList<Item>, var context: Context) : RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
 
     var userListListener: UserListListener? = null
+    var favoriteListener: FavoriteListener? = null
 
     fun updateUsers(user: ArrayList<Item>) {
         users.clear()
@@ -32,7 +33,7 @@ class UserListAdapter(var users: ArrayList<Item>, var context: Context) : Recycl
             userListListener?.onItemUserList(it, users[position], users)
         }
         holder.binding.btnFavorite.setOnClickListener {
-            userListListener?.addFavoriteUser(it, users[position], users)
+            favoriteListener?.addFavoriteUser(it, users[position], users)
         }
     }
 

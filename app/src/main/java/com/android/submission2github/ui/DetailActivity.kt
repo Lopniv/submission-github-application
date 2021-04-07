@@ -6,20 +6,20 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.android.submission2github.R
 import com.android.submission2github.adapter.PagerAdapter
+import com.android.submission2github.databinding.ActivityDetailBinding
 import com.android.submission2github.model.Item
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_detail.*
-
 
 class DetailActivity : AppCompatActivity() {
 
-    var item: Item? = null
-    var username: String? = null
-    var idUser: Int? = null
-    var type: String? = null
-    var imageUrl: String? = null
+    private var item: Item? = null
+    private var username: String? = null
+    private var idUser: Int? = null
+    private var type: String? = null
+    private var imageUrl: String? = null
+
+    private lateinit var b : ActivityDetailBinding
 
     companion object{
         var KEY_DETAIL_DATA = "detail_data"
@@ -27,7 +27,8 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        b = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(b.root)
         setupColoStatusBar()
         getData()
         setupViewPager()
@@ -51,14 +52,14 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setupItem() {
-        tv_username.text = username
-        tv_id.text = "$idUser"
-        tv_type.text = type
-        Glide.with(this).load(imageUrl).into(iv_user_profile)
+        b.tvUsername.text = username
+        b.tvId.text = "$idUser"
+        b.tvType.text = type
+        Glide.with(this).load(imageUrl).into(b.ivUserProfile)
     }
 
     private fun setupViewPager(){
-        viewpager.adapter = username?.let { PagerAdapter(supportFragmentManager, it) }
-        tablayout.setupWithViewPager(viewpager)
+        b.viewpager.adapter = username?.let { PagerAdapter(supportFragmentManager, it) }
+        b.tablayout.setupWithViewPager(b.viewpager)
     }
 }
