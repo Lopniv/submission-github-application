@@ -47,14 +47,8 @@ object Utils {
                 } else {
                     insertValue(item, favoriteHelper, view)
                 }
-            } else {
-                returnFavoriteList(favoriteList)
             }
         }
-    }
-
-    private fun returnFavoriteList(favoriteList: ArrayList<Item>): ArrayList<Item>{
-        return favoriteList
     }
 
     private fun insertValue(item: Item, favoriteHelper: UserFavoriteHelper, view: View) {

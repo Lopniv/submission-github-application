@@ -28,7 +28,7 @@ class UserListAdapter(var users: ArrayList<Item>, var context: Context) : Recycl
     )
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
-        holder.bind(users[position], context)
+        holder.bind(users[position])
         holder.itemView.setOnClickListener {
             userListListener?.onItemUserList(it, users[position], users)
         }
@@ -42,10 +42,10 @@ class UserListAdapter(var users: ArrayList<Item>, var context: Context) : Recycl
     class UserListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemUserBinding.bind(view)
         @SuppressLint("SetTextI18n")
-        fun bind(user: Item, context: Context) {
+        fun bind(user: Item) {
             binding.tvUsername.text = user.login
             binding.tvId.text = "${user.id}"
-            Glide.with(context).load(user.avatarUrl).into(binding.ivUserProfile)
+            Glide.with(itemView.context).load(user.avatarUrl).into(binding.ivUserProfile)
         }
     }
 }
