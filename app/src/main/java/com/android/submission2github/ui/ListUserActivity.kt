@@ -141,6 +141,6 @@ class ListUserActivity : AppCompatActivity(), UserListListener, FavoriteListener
     }
 
     override fun addFavoriteUser(view: View, item: Item, listItem: ArrayList<Item>) {
-        loadFavoriteAsync(item, this, b.root, true)
+//        loadFavoriteAsync(item, this, b.root, true)
     }
 }

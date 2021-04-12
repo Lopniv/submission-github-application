@@ -9,9 +9,12 @@ class DatabaseContract {
             const val TABLE_NAME = "user"
             const val _ID = "_id"
             const val LOGIN = "login"
-            const val NODE_ID = "nodeId"
             const val AVATAR_URL = "avatarUrl"
-            const val TYPE = "type"
+            const val NAME = "namae"
+            const val COMPANY = "company"
+            const val BLOG = "blog"
+            const val LOCATION = "location"
+            const val EMAIL = "email"
         }
     }
 }

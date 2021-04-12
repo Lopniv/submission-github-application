@@ -93,7 +93,7 @@ class FollowerFragment(var username: String) : Fragment() {
 
     private val favoriteUser = object: FavoriteListener {
         override fun addFavoriteUser(view: View, item: Item, listItem: ArrayList<Item>) {
-            b?.root?.let { loadFavoriteAsync(item, requireContext(), it, true) }
+            //b?.root?.let { loadFavoriteAsync(item, requireContext(), it, true) }
         }
     }
 }

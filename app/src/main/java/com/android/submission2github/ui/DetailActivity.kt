@@ -3,22 +3,24 @@ package com.android.submission2github.ui
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.android.submission2github.adapter.PagerAdapter
 import com.android.submission2github.databinding.ActivityDetailBinding
 import com.android.submission2github.model.Item
+import com.android.submission2github.viewmodel.GetUserViewModel
+import com.android.submission2github.viewmodel.SearchUserViewModel
 import com.bumptech.glide.Glide
 
 class DetailActivity : AppCompatActivity() {
 
     private var item: Item? = null
     private var username: String? = null
-    private var idUser: Int? = null
-    private var type: String? = null
-    private var imageUrl: String? = null
 
+    private lateinit var viewModel: GetUserViewModel
     private lateinit var b : ActivityDetailBinding
 
     companion object{
@@ -45,17 +47,49 @@ class DetailActivity : AppCompatActivity() {
     private fun getData(){
         item = intent.getParcelableExtra(KEY_DETAIL_DATA)
         username = item?.login
-        idUser = item?.id
-        type = item?.type
-        imageUrl = item?.avatarUrl
-        setupItem()
+        loadData()
+//        name = item?.name
+//        location = item?.location
+//        company = item?.company
+//        email = item?.email
+//        blog = item?.blog
+//        imageUrl = item?.avatarUrl
+//        setupItem()
     }
 
-    private fun setupItem() {
-        b.tvUsername.text = username
-        b.tvId.text = "$idUser"
-        b.tvType.text = type
-        Glide.with(this).load(imageUrl).into(b.ivUserProfile)
+    private fun loadData() {
+        viewModel = ViewModelProviders.of(this).get(GetUserViewModel::class.java)
+        username?.let {
+            viewModel.refresh(it)
+        }
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        viewModel.users.observe(this, { user ->
+            user?.let {
+                setupItem(it)
+            }
+        })
+        viewModel.loading.observe(this, { isLoading ->
+            isLoading?.let {
+                b.loadingView.visibility = if (it) View.VISIBLE else View.GONE
+                if (it) {
+                    b.placeholderDetail.visibility = View.GONE
+                } else {
+                    b.placeholderDetail.visibility = View.VISIBLE
+                }
+            }
+        })
+    }
+
+    private fun setupItem(item: Item) {
+        b.tvName.text = item.name
+        b.tvLocation.text = item.location
+        b.tvCompany.text = item.company
+        b.tvBlog.text = item.blog
+        b.tvEmail.text = item.email
+        Glide.with(this).load(item.avatarUrl).into(b.ivUserProfile)
     }
 
     private fun setupViewPager(){

@@ -8,9 +8,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.TABLE_NAME
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.AVATAR_URL
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.BLOG
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.COMPANY
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.EMAIL
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.LOCATION
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.LOGIN
-import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.NODE_ID
-import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.TYPE
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.NAME
 import com.android.submission2github.model.Item
 import java.util.ArrayList
 
@@ -123,9 +126,12 @@ class UserFavoriteHelper(context: Context) {
                 favorite = Item()
                 favorite.id = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID))
                 favorite.login = cursor.getString(cursor.getColumnIndexOrThrow(LOGIN))
-                favorite.nodeId = cursor.getString(cursor.getColumnIndexOrThrow(NODE_ID))
                 favorite.avatarUrl = cursor.getString(cursor.getColumnIndexOrThrow(AVATAR_URL))
-                favorite.type = cursor.getString(cursor.getColumnIndexOrThrow(TYPE))
+                favorite.name = cursor.getString(cursor.getColumnIndexOrThrow(NAME))
+                favorite.email = cursor.getString(cursor.getColumnIndexOrThrow(EMAIL))
+                favorite.location = cursor.getString(cursor.getColumnIndexOrThrow(LOCATION))
+                favorite.blog = cursor.getString(cursor.getColumnIndexOrThrow(BLOG))
+                favorite.company = cursor.getString(cursor.getColumnIndexOrThrow(COMPANY))
 
                 arrayList.add(favorite)
                 cursor.moveToNext()
@@ -145,9 +151,12 @@ class UserFavoriteHelper(context: Context) {
     fun insertFavorite(favorite: Item): Long {
         val args = ContentValues()
         args.put(LOGIN, favorite.login)
-        args.put(NODE_ID, favorite.nodeId)
         args.put(AVATAR_URL, favorite.avatarUrl)
-        args.put(TYPE, favorite.type)
+        args.put(NAME, favorite.name)
+        args.put(EMAIL, favorite.email)
+        args.put(LOCATION, favorite.location)
+        args.put(COMPANY, favorite.company)
+        args.put(BLOG, favorite.blog)
         return database.insert(DATABASE_TABLE, null, args)
     }
 
@@ -161,9 +170,12 @@ class UserFavoriteHelper(context: Context) {
     fun updateFavorite(favorite: Item): Int {
         val args = ContentValues()
         args.put(LOGIN, favorite.login)
-        args.put(NODE_ID, favorite.nodeId)
         args.put(AVATAR_URL, favorite.avatarUrl)
-        args.put(TYPE, favorite.type)
+        args.put(NAME, favorite.name)
+        args.put(EMAIL, favorite.email)
+        args.put(LOCATION, favorite.location)
+        args.put(COMPANY, favorite.company)
+        args.put(BLOG, favorite.blog)
         return database.update(DATABASE_TABLE, args, BaseColumns._ID + "= '" + favorite.id + "'", null)
     }
 

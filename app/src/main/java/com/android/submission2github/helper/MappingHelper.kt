@@ -13,10 +13,13 @@ object MappingHelper {
             while (moveToNext()) {
                 val id = getInt(getColumnIndexOrThrow(DatabaseContract.UserColumn._ID))
                 val login = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.LOGIN))
-                val nodeId = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.NODE_ID))
                 val avatarUrl = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.AVATAR_URL))
-                val type = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.TYPE))
-                notesList.add(Item(login, id, nodeId, avatarUrl, type))
+                val name = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.NAME))
+                val email = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.EMAIL))
+                val location = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.LOCATION))
+                val company = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.COMPANY))
+                val blog = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.BLOG))
+                notesList.add(Item(login, id, avatarUrl, name, company, blog, location, email))
             }
         }
         return notesList

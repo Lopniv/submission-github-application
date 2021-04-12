@@ -48,8 +48,8 @@ class FavoriteUserAdapter(var context: Context) : RecyclerView.Adapter<FavoriteU
         private val binding = ItemFavoriteBinding.bind(view)
         @SuppressLint("SetTextI18n")
         fun bind(user: Item, context: Context) {
-            binding.tvUsername.text = user.login
-            binding.tvId.text = "${user.id}"
+            binding.tvName.text = user.name
+            binding.tvLocation.text = user.location
             Glide.with(context).load(user.avatarUrl).into(binding.ivUserProfile)
             binding.btnRemove.setOnClickListener {
 

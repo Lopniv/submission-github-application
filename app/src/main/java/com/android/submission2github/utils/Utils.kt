@@ -64,8 +64,11 @@ object Utils {
         values.put(DatabaseContract.UserColumn._ID, item.id)
         values.put(DatabaseContract.UserColumn.LOGIN, item.login)
         values.put(DatabaseContract.UserColumn.AVATAR_URL, item.avatarUrl)
-        values.put(DatabaseContract.UserColumn.NODE_ID, item.nodeId)
-        values.put(DatabaseContract.UserColumn.TYPE, item.type)
+        values.put(DatabaseContract.UserColumn.NAME, item.name)
+        values.put(DatabaseContract.UserColumn.EMAIL, item.email)
+        values.put(DatabaseContract.UserColumn.LOCATION, item.location)
+        values.put(DatabaseContract.UserColumn.COMPANY, item.company)
+        values.put(DatabaseContract.UserColumn.BLOG, item.blog)
 
         favoriteHelper.insert(values)
         showSnackbarMessage(view, "User has been successfully added to favorites")

@@ -16,9 +16,11 @@ data class SearchResponse(
 data class Item(
     var login: String? = null,
     var id: Int = 0,
-    @SerializedName("node_id")
-    var nodeId: String? = null,
     @SerializedName("avatar_url")
     var avatarUrl: String? = null,
-    var type: String? = null
+    var name: String? = null,
+    var company: String? = null,
+    var blog: String? = null,
+    var location: String? = null,
+    var email: String? = null
 ): Parcelable

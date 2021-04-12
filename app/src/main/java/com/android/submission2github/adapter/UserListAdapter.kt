@@ -32,9 +32,9 @@ class UserListAdapter(var users: ArrayList<Item>, var context: Context) : Recycl
         holder.itemView.setOnClickListener {
             userListListener?.onItemUserList(it, users[position], users)
         }
-        holder.binding.btnFavorite.setOnClickListener {
-            favoriteListener?.addFavoriteUser(it, users[position], users)
-        }
+//        holder.binding.btnFavorite.setOnClickListener {
+//            favoriteListener?.addFavoriteUser(it, users[position], users)
+//        }
     }
 
     override fun getItemCount() = users.size
@@ -43,8 +43,7 @@ class UserListAdapter(var users: ArrayList<Item>, var context: Context) : Recycl
         val binding = ItemUserBinding.bind(view)
         @SuppressLint("SetTextI18n")
         fun bind(user: Item, context: Context) {
-            binding.tvUsername.text = user.login
-            binding.tvId.text = "${user.id}"
+            binding.tvName.text = user.login
             Glide.with(context).load(user.avatarUrl).into(binding.ivUserProfile)
         }
     }
