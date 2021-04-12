@@ -11,27 +11,33 @@ import com.android.submission2github.databinding.ItemFavoriteBinding
 import com.android.submission2github.model.Item
 import com.bumptech.glide.Glide
 
-class FavoriteUserAdapter(var context: Context) : RecyclerView.Adapter<FavoriteUserAdapter.FavoriteUserViewHolder>() {
+class FavoriteUserAdapter(private var favoriteList: ArrayList<Item>) : RecyclerView.Adapter<FavoriteUserAdapter.FavoriteUserViewHolder>() {
 
-    var listFavorite = java.util.ArrayList<Item>()
-        set(listFavorite) {
-            if (listFavorite.size > 0) {
-                this.listFavorite.clear()
-            }
-            this.listFavorite.addAll(listFavorite)
+//    var listFavorite = java.util.ArrayList<Item>()
+//        set(listFavorite) {
+//            if (listFavorite.size > 0) {
+//                this.listFavorite.clear()
+//            }
+//            this.listFavorite.addAll(listFavorite)
+//
+//            notifyDataSetChanged()
+//        }
+//
+//    fun addItem(item: Item) {
+//        this.listFavorite.add(item)
+//        notifyItemInserted(this.listFavorite.size - 1)
+//    }
+//
+//    fun removeItem(position: Int) {
+//        this.listFavorite.removeAt(position)
+//        notifyItemRemoved(position)
+//        notifyItemRangeChanged(position, this.listFavorite.size)
+//    }
 
-            notifyDataSetChanged()
-        }
-
-    fun addItem(item: Item) {
-        this.listFavorite.add(item)
-        notifyItemInserted(this.listFavorite.size - 1)
-    }
-
-    fun removeItem(position: Int) {
-        this.listFavorite.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, this.listFavorite.size)
+    fun updateUsers(user: ArrayList<Item>) {
+        favoriteList.clear()
+        favoriteList.addAll(user)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FavoriteUserViewHolder(
@@ -39,18 +45,18 @@ class FavoriteUserAdapter(var context: Context) : RecyclerView.Adapter<FavoriteU
     )
 
     override fun onBindViewHolder(holder: FavoriteUserViewHolder, position: Int) {
-        holder.bind(listFavorite[position], context)
+        holder.bind(favoriteList[position])
     }
 
-    override fun getItemCount() = this.listFavorite.size
+    override fun getItemCount() = this.favoriteList.size
 
     class FavoriteUserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemFavoriteBinding.bind(view)
         @SuppressLint("SetTextI18n")
-        fun bind(user: Item, context: Context) {
+        fun bind(user: Item) {
             binding.tvName.text = user.name
             binding.tvLocation.text = user.location
-            Glide.with(context).load(user.avatarUrl).into(binding.ivUserProfile)
+            Glide.with(itemView.context).load(user.avatarUrl).into(binding.ivUserProfile)
             binding.btnRemove.setOnClickListener {
 
             }

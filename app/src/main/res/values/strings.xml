@@ -12,4 +12,5 @@
     <string name="company">Company</string>
     <string name="email">Email</string>
     <string name="blog">Blog</string>
+    <string name="favorite_user_list">Favorite User List</string>
 </resources>

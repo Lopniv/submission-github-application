@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Submission2Github">
-        <activity android:name=".ui.DetailActivity"/>
+        <activity android:name=".ui.FavoriteActivity"></activity>
+        <activity android:name=".ui.DetailActivity" />
         <activity android:name=".ui.ListUserActivity" />
         <activity android:name=".ui.SearchActivity">
             <intent-filter>

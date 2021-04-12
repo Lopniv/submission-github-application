@@ -125,7 +125,7 @@ class ListUserActivity : AppCompatActivity(), UserListListener, FavoriteListener
     }
 
     private fun favoriteList(){
-
+        startActivity(Intent(this, FavoriteActivity::class.java))
     }
 
     override fun onClick(v: View?) {
