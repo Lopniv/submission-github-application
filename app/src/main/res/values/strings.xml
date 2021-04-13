@@ -13,4 +13,8 @@
     <string name="email">Email</string>
     <string name="blog">Blog</string>
     <string name="favorite_user_list">Favorite User List</string>
+    <string name="repositories">Repositories</string>
+    <string name="_10">10</string>
+    <string name="follower">Follower</string>
+    <string name="following">Following</string>
 </resources>

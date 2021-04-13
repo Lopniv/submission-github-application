@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.android.submission2github.R
 import com.android.submission2github.db.DatabaseContract
 import com.android.submission2github.db.UserFavoriteHelper
 import com.android.submission2github.helper.MappingHelper
@@ -23,7 +25,7 @@ object Utils {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
 
-    fun loadFavoriteAsync(item: Item, context: Context, view: View, isInsert: Boolean) {
+    fun addFavoriteUser(item: Item, context: Context, view: View, isInsert: Boolean) {
         var itemList: ArrayList<Item>
         var favoriteList: ArrayList<Item>
         var favoriteHelper: UserFavoriteHelper
@@ -58,11 +60,14 @@ object Utils {
         values.put(DatabaseContract.UserColumn._ID, item.id)
         values.put(DatabaseContract.UserColumn.LOGIN, item.login)
         values.put(DatabaseContract.UserColumn.AVATAR_URL, item.avatarUrl)
-        values.put(DatabaseContract.UserColumn.NAME, item.name)
-        values.put(DatabaseContract.UserColumn.EMAIL, item.email)
-        values.put(DatabaseContract.UserColumn.LOCATION, item.location)
-        values.put(DatabaseContract.UserColumn.COMPANY, item.company)
-        values.put(DatabaseContract.UserColumn.BLOG, item.blog)
+        values.put(DatabaseContract.UserColumn.NAME, if(item.name != null){ item.name } else { "null" })
+        values.put(DatabaseContract.UserColumn.EMAIL, if(item.email != null){ item.email } else { "null" })
+        values.put(DatabaseContract.UserColumn.LOCATION, if(item.location != null){ item.location } else { "null" })
+        values.put(DatabaseContract.UserColumn.COMPANY, if(item.company != null){ item.company } else { "null" })
+        values.put(DatabaseContract.UserColumn.BLOG, if(item.blog != null){ item.blog } else { "null" })
+        values.put(DatabaseContract.UserColumn.REPO, item.repo)
+        values.put(DatabaseContract.UserColumn.FOLLOWERS, item.followers)
+        values.put(DatabaseContract.UserColumn.FOLLOWING, item.following)
 
         favoriteHelper.insert(values)
         showSnackbarMessage(view, "User has been successfully added to favorites")

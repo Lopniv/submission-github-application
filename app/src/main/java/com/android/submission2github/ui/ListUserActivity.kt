@@ -9,18 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.submission2github.R
-import com.android.submission2github.adapter.FavoriteListener
 import com.android.submission2github.adapter.UserListAdapter
 import com.android.submission2github.adapter.UserListListener
 import com.android.submission2github.databinding.ActivityListUserBinding
 import com.android.submission2github.model.Item
+import com.android.submission2github.ui.DetailActivity.Companion.INTENT
 import com.android.submission2github.ui.DetailActivity.Companion.KEY_DETAIL_DATA
 import com.android.submission2github.utils.Utils
-import com.android.submission2github.utils.Utils.loadFavoriteAsync
 import com.android.submission2github.viewmodel.SearchUserViewModel
 import kotlinx.android.synthetic.main.activity_list_user.*
 
-class ListUserActivity : AppCompatActivity(), UserListListener, FavoriteListener, View.OnClickListener {
+class ListUserActivity : AppCompatActivity(), UserListListener, View.OnClickListener {
 
     private var username: String? = null
     private var userList: ArrayList<Item>? = null
@@ -46,7 +45,6 @@ class ListUserActivity : AppCompatActivity(), UserListListener, FavoriteListener
     private fun initiateValue(){
         userListAdapter = UserListAdapter(arrayListOf(), this)
         userListAdapter?.userListListener = this
-        userListAdapter?.favoriteListener = this
     }
 
     private fun getData(){
@@ -137,10 +135,7 @@ class ListUserActivity : AppCompatActivity(), UserListListener, FavoriteListener
     override fun onItemUserList(view: View, item: Item, listItem: ArrayList<Item>) {
         val detail = Intent(this, DetailActivity::class.java)
         detail.putExtra(KEY_DETAIL_DATA, item)
+        detail.putExtra(INTENT, "LISTUSER")
         startActivity(detail)
-    }
-
-    override fun addFavoriteUser(view: View, item: Item, listItem: ArrayList<Item>) {
-//        loadFavoriteAsync(item, this, b.root, true)
     }
 }

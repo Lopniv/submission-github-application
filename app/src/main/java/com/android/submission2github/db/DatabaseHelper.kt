@@ -22,6 +22,9 @@ internal class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATA
                 " ${UserColumn.EMAIL} TEXT NOT NULL," +
                 " ${UserColumn.BLOG} TEXT NOT NULL," +
                 " ${UserColumn.LOCATION} TEXT NOT NULL," +
+                " ${UserColumn.REPO} TEXT NOT NULL," +
+                " ${UserColumn.FOLLOWERS} TEXT NOT NULL," +
+                " ${UserColumn.FOLLOWING} TEXT NOT NULL," +
                 " ${UserColumn.COMPANY} TEXT NOT NULL)"
     }
 

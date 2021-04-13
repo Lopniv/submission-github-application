@@ -13,26 +13,7 @@ import com.bumptech.glide.Glide
 
 class FavoriteUserAdapter(private var favoriteList: ArrayList<Item>) : RecyclerView.Adapter<FavoriteUserAdapter.FavoriteUserViewHolder>() {
 
-//    var listFavorite = java.util.ArrayList<Item>()
-//        set(listFavorite) {
-//            if (listFavorite.size > 0) {
-//                this.listFavorite.clear()
-//            }
-//            this.listFavorite.addAll(listFavorite)
-//
-//            notifyDataSetChanged()
-//        }
-//
-//    fun addItem(item: Item) {
-//        this.listFavorite.add(item)
-//        notifyItemInserted(this.listFavorite.size - 1)
-//    }
-//
-//    fun removeItem(position: Int) {
-//        this.listFavorite.removeAt(position)
-//        notifyItemRemoved(position)
-//        notifyItemRangeChanged(position, this.listFavorite.size)
-//    }
+    var userListListener: UserListListener? = null
 
     fun updateUsers(user: ArrayList<Item>) {
         favoriteList.clear()
@@ -46,6 +27,9 @@ class FavoriteUserAdapter(private var favoriteList: ArrayList<Item>) : RecyclerV
 
     override fun onBindViewHolder(holder: FavoriteUserViewHolder, position: Int) {
         holder.bind(favoriteList[position])
+        holder.itemView.setOnClickListener{
+            userListListener?.onItemUserList(it, favoriteList[position], favoriteList)
+        }
     }
 
     override fun getItemCount() = this.favoriteList.size
@@ -58,9 +42,6 @@ class FavoriteUserAdapter(private var favoriteList: ArrayList<Item>) : RecyclerV
             binding.tvLocation.text = user.location
             Glide.with(itemView.context).load(user.avatarUrl).into(binding.ivUserProfile)
             binding.btnRemove.setOnClickListener {
-
-            }
-            itemView.setOnClickListener {
 
             }
         }

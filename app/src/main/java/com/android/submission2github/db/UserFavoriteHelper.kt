@@ -11,9 +11,12 @@ import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.AV
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.BLOG
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.COMPANY
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.EMAIL
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.FOLLOWERS
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.FOLLOWING
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.LOCATION
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.LOGIN
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.NAME
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.REPO
 import com.android.submission2github.model.Item
 import java.util.ArrayList
 
@@ -132,6 +135,9 @@ class UserFavoriteHelper(context: Context) {
                 favorite.location = cursor.getString(cursor.getColumnIndexOrThrow(LOCATION))
                 favorite.blog = cursor.getString(cursor.getColumnIndexOrThrow(BLOG))
                 favorite.company = cursor.getString(cursor.getColumnIndexOrThrow(COMPANY))
+                favorite.repo = cursor.getInt(cursor.getColumnIndexOrThrow(REPO))
+                favorite.followers = cursor.getInt(cursor.getColumnIndexOrThrow(FOLLOWERS))
+                favorite.following = cursor.getInt(cursor.getColumnIndexOrThrow(FOLLOWING))
 
                 arrayList.add(favorite)
                 cursor.moveToNext()
@@ -157,6 +163,9 @@ class UserFavoriteHelper(context: Context) {
         args.put(LOCATION, favorite.location)
         args.put(COMPANY, favorite.company)
         args.put(BLOG, favorite.blog)
+        args.put(REPO, favorite.repo)
+        args.put(FOLLOWERS, favorite.followers)
+        args.put(FOLLOWING, favorite.following)
         return database.insert(DATABASE_TABLE, null, args)
     }
 
@@ -176,6 +185,9 @@ class UserFavoriteHelper(context: Context) {
         args.put(LOCATION, favorite.location)
         args.put(COMPANY, favorite.company)
         args.put(BLOG, favorite.blog)
+        args.put(REPO, favorite.repo)
+        args.put(FOLLOWERS, favorite.followers)
+        args.put(FOLLOWING, favorite.following)
         return database.update(DATABASE_TABLE, args, BaseColumns._ID + "= '" + favorite.id + "'", null)
     }
 

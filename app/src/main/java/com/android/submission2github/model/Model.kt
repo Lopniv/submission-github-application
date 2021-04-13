@@ -22,5 +22,9 @@ data class Item(
     var company: String? = null,
     var blog: String? = null,
     var location: String? = null,
-    var email: String? = null
+    var email: String? = null,
+    @SerializedName("public_repos")
+    var repo: Int? = 0,
+    var followers: Int? = 0,
+    var following: Int? = 0
 ): Parcelable

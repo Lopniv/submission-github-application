@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.submission2github.adapter.FavoriteListener
 import com.android.submission2github.adapter.UserListAdapter
 import com.android.submission2github.databinding.FragmentFollowerBinding
 import com.android.submission2github.model.Item
-import com.android.submission2github.utils.Utils.loadFavoriteAsync
 import com.android.submission2github.viewmodel.FollowerViewModel
 
 class FollowerFragment(var username: String) : Fragment() {
@@ -32,7 +30,6 @@ class FollowerFragment(var username: String) : Fragment() {
 
     private fun initiate(){
         userListAdapter = UserListAdapter(arrayListOf(), requireContext())
-        userListAdapter?.favoriteListener = favoriteUser
     }
 
     private fun getData(){
@@ -89,11 +86,5 @@ class FollowerFragment(var username: String) : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-    }
-
-    private val favoriteUser = object: FavoriteListener {
-        override fun addFavoriteUser(view: View, item: Item, listItem: ArrayList<Item>) {
-            //b?.root?.let { loadFavoriteAsync(item, requireContext(), it, true) }
-        }
     }
 }

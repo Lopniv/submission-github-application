@@ -1,6 +1,7 @@
 package com.android.submission2github.ui
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.submission2github.R
 import com.android.submission2github.adapter.FavoriteUserAdapter
 import com.android.submission2github.adapter.UserListAdapter
+import com.android.submission2github.adapter.UserListListener
 import com.android.submission2github.databinding.ActivityFavoriteBinding
 import com.android.submission2github.db.UserFavoriteHelper
 import com.android.submission2github.helper.MappingHelper
@@ -18,7 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
+class FavoriteActivity : AppCompatActivity(), View.OnClickListener, UserListListener {
 
     private var favoriteUserAdapter: FavoriteUserAdapter? = null
     private var itemList: ArrayList<Item>? = null
@@ -44,6 +46,7 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
     private fun initiateValue(){
         favoriteHelper = UserFavoriteHelper.getInstance(this)
         favoriteUserAdapter = FavoriteUserAdapter(arrayListOf())
+        favoriteUserAdapter?.userListListener = this
     }
 
     private fun setupRecyclerView() {
@@ -78,5 +81,12 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
         when(v?.id){
             //R.id.btn_edit ->
         }
+    }
+
+    override fun onItemUserList(view: View, item: Item, listItem: ArrayList<Item>) {
+        val detail = Intent(this, DetailActivity::class.java)
+        detail.putExtra(DetailActivity.KEY_DETAIL_DATA, item)
+        detail.putExtra(DetailActivity.INTENT, "FAVORITE")
+        startActivity(detail)
     }
 }

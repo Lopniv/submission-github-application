@@ -15,6 +15,9 @@ class DatabaseContract {
             const val BLOG = "blog"
             const val LOCATION = "location"
             const val EMAIL = "email"
+            const val REPO = "repo"
+            const val FOLLOWERS = "followers"
+            const val FOLLOWING = "following"
         }
     }
 }

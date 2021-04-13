@@ -55,7 +55,7 @@
                 android:id="@+id/iv_user_profile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 app:civ_border_overlay="true"
                 app:civ_border_width="5dp"
                 app:civ_border_color="@color/white"
@@ -73,12 +73,23 @@
                 android:textSize="24sp"
                 android:layout_marginTop="10dp"/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_name"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:text="@string/username"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/placeholder_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="30dp"
-                android:layout_below="@id/tv_name">
+                android:layout_below="@id/tv_username">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/space"
@@ -90,11 +101,11 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ic_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/ic_location"
                     app:tint="@color/white"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     app:layout_constraintEnd_toStartOf="@id/tv_location"
@@ -106,10 +117,10 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:text="@string/location"
-                    android:textSize="18sp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginRight="30dp"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/space"/>
 
@@ -118,6 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_office"
+                    android:visibility="gone"
                     app:tint="@color/white"
                     android:layout_below="@id/ic_location"
                     android:layout_marginRight="10dp"
@@ -131,23 +143,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:visibility="gone"
                     android:text="@string/company"
                     android:textSize="18sp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintEnd_toStartOf="@id/space"
                     app:layout_constraintTop_toBottomOf="@id/tv_location"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ic_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/ic_email"
                     app:tint="@color/white"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     app:layout_constraintStart_toEndOf="@id/space"
                     app:layout_constraintTop_toTopOf="parent"/>
 
@@ -157,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:text="@string/email"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
@@ -168,10 +181,11 @@
                     android:id="@+id/ic_blog"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:src="@drawable/ic_blog"
                     app:tint="@color/white"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     app:layout_constraintTop_toBottomOf="@id/ic_email"
                     app:layout_constraintStart_toEndOf="@id/space"/>
@@ -180,6 +194,7 @@
                     android:id="@+id/tv_blog"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
@@ -188,6 +203,92 @@
                     android:text="@string/blog"
                     android:textSize="18sp"
                     android:textColor="@color/white"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginEnd="50dp"
+                    android:layout_marginRight="50dp"
+                    app:cardCornerRadius="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_company">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_follower"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/follower"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_total_follower"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_10"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="@+id/tv_follower"
+                            app:layout_constraintStart_toStartOf="@+id/tv_follower"
+                            app:layout_constraintTop_toBottomOf="@id/tv_follower" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_following"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/following"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_total_following"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_10"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="@+id/tv_following"
+                            app:layout_constraintStart_toStartOf="@+id/tv_following"
+                            app:layout_constraintTop_toBottomOf="@id/tv_following" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_repo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/repositories"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_total_repo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_10"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="@+id/tv_repo"
+                            app:layout_constraintStart_toStartOf="@+id/tv_repo"
+                            app:layout_constraintTop_toBottomOf="@id/tv_repo" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
