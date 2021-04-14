@@ -72,4 +72,12 @@ object Utils {
         favoriteHelper.insert(values)
         showSnackbarMessage(view, "User has been successfully added to favorites")
     }
+
+    fun removeUser(context: Context, item: Item, view: View) {
+        val favoriteHelper = UserFavoriteHelper.getInstance(context)
+        favoriteHelper.open()
+        favoriteHelper.deleteFavorite(item.id)
+        showSnackbarMessage(view, "User has been successfully deleted")
+        favoriteHelper.close()
+    }
 }
