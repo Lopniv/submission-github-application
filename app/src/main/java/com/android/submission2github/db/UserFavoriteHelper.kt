@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.TABLE_NAME
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.AVATAR_URL
-import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.BLOG
-import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.COMPANY
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.EMAIL
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.FOLLOWERS
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.FOLLOWING
@@ -133,8 +131,6 @@ class UserFavoriteHelper(context: Context) {
                 favorite.name = cursor.getString(cursor.getColumnIndexOrThrow(NAME))
                 favorite.email = cursor.getString(cursor.getColumnIndexOrThrow(EMAIL))
                 favorite.location = cursor.getString(cursor.getColumnIndexOrThrow(LOCATION))
-                favorite.blog = cursor.getString(cursor.getColumnIndexOrThrow(BLOG))
-                favorite.company = cursor.getString(cursor.getColumnIndexOrThrow(COMPANY))
                 favorite.repo = cursor.getInt(cursor.getColumnIndexOrThrow(REPO))
                 favorite.followers = cursor.getInt(cursor.getColumnIndexOrThrow(FOLLOWERS))
                 favorite.following = cursor.getInt(cursor.getColumnIndexOrThrow(FOLLOWING))
@@ -161,8 +157,6 @@ class UserFavoriteHelper(context: Context) {
         args.put(NAME, favorite.name)
         args.put(EMAIL, favorite.email)
         args.put(LOCATION, favorite.location)
-        args.put(COMPANY, favorite.company)
-        args.put(BLOG, favorite.blog)
         args.put(REPO, favorite.repo)
         args.put(FOLLOWERS, favorite.followers)
         args.put(FOLLOWING, favorite.following)
@@ -183,8 +177,6 @@ class UserFavoriteHelper(context: Context) {
         args.put(NAME, favorite.name)
         args.put(EMAIL, favorite.email)
         args.put(LOCATION, favorite.location)
-        args.put(COMPANY, favorite.company)
-        args.put(BLOG, favorite.blog)
         args.put(REPO, favorite.repo)
         args.put(FOLLOWERS, favorite.followers)
         args.put(FOLLOWING, favorite.following)

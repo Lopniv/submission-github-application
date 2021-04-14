@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -17,12 +18,9 @@ import com.android.submission2github.databinding.ActivityDetailBinding
 import com.android.submission2github.db.UserFavoriteHelper
 import com.android.submission2github.helper.MappingHelper
 import com.android.submission2github.model.Item
-import com.android.submission2github.utils.Utils
 import com.android.submission2github.utils.Utils.addFavoriteUser
 import com.android.submission2github.viewmodel.GetUserViewModel
-import com.android.submission2github.viewmodel.SearchUserViewModel
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_detail.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -96,11 +94,11 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         })
         viewModel.loading.observe(this, { isLoading ->
             isLoading?.let {
-                b.loadingView.visibility = if (it) View.VISIBLE else View.GONE
+                b.loadingView.visibility = if (it) VISIBLE else GONE
                 if (it) {
-                    b.placeholderDetail.visibility = View.GONE
+                    b.placeholderDetail.visibility = GONE
                 } else {
-                    b.placeholderDetail.visibility = View.VISIBLE
+                    b.placeholderDetail.visibility = VISIBLE
                 }
             }
         })
@@ -110,8 +108,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         b.tvName.text = if (item.name != null){ item.name } else { "null" }
         b.tvUsername.text = if (item.login != null){ "@${item.login}" } else { "null" }
         b.tvLocation.text = if (item.location != null){ item.location } else { "null" }
-        b.tvCompany.text = if (item.company != null){ item.company } else { "null" }
-        b.tvBlog.text = if (item.blog != null){ item.blog } else { "null" }
         b.tvEmail.text = if (item.email != null){ item.email } else { "null" }
         b.tvTotalRepo.text = "${item.repo}"
         b.tvTotalFollower.text = "${item.followers}"

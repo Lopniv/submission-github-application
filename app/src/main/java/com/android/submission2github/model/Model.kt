@@ -19,8 +19,6 @@ data class Item(
     @SerializedName("avatar_url")
     var avatarUrl: String? = null,
     var name: String? = null,
-    var company: String? = null,
-    var blog: String? = null,
     var location: String? = null,
     var email: String? = null,
     @SerializedName("public_repos")

@@ -63,8 +63,6 @@ object Utils {
         values.put(DatabaseContract.UserColumn.NAME, if(item.name != null){ item.name } else { "null" })
         values.put(DatabaseContract.UserColumn.EMAIL, if(item.email != null){ item.email } else { "null" })
         values.put(DatabaseContract.UserColumn.LOCATION, if(item.location != null){ item.location } else { "null" })
-        values.put(DatabaseContract.UserColumn.COMPANY, if(item.company != null){ item.company } else { "null" })
-        values.put(DatabaseContract.UserColumn.BLOG, if(item.blog != null){ item.blog } else { "null" })
         values.put(DatabaseContract.UserColumn.REPO, item.repo)
         values.put(DatabaseContract.UserColumn.FOLLOWERS, item.followers)
         values.put(DatabaseContract.UserColumn.FOLLOWING, item.following)

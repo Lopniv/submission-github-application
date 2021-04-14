@@ -17,4 +17,8 @@
     <string name="_10">10</string>
     <string name="follower">Follower</string>
     <string name="following">Following</string>
+    <string name="owner">Made by Lopniv</string>
+    <string name="reminder">Reminder</string>
+    <string name="detail_reminder">Remind users to search for their favorite users at 9 am</string>
+    <string name="message_reminder">Reminder! Come on, find your favorite user now</string>
 </resources>

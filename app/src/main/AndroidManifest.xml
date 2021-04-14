@@ -3,6 +3,8 @@
     package="com.android.submission2github">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Submission2Github">
-        <activity android:name=".ui.FavoriteActivity"></activity>
+        <activity android:name=".ui.SettingActivity"/>
+        <activity android:name=".ui.FavoriteActivity" />
         <activity android:name=".ui.DetailActivity" />
         <activity android:name=".ui.ListUserActivity" />
         <activity android:name=".ui.SearchActivity">
@@ -21,6 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name=".receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

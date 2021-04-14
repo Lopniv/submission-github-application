@@ -17,12 +17,10 @@ object MappingHelper {
                 val name = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.NAME))
                 val email = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.EMAIL))
                 val location = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.LOCATION))
-                val company = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.COMPANY))
-                val blog = getString(getColumnIndexOrThrow(DatabaseContract.UserColumn.BLOG))
                 val repo = getInt(getColumnIndexOrThrow(DatabaseContract.UserColumn.REPO))
                 val follower = getInt(getColumnIndexOrThrow(DatabaseContract.UserColumn.FOLLOWERS))
                 val following = getInt(getColumnIndexOrThrow(DatabaseContract.UserColumn.FOLLOWING))
-                notesList.add(Item(login, id, avatarUrl, name, company, blog, location, email, repo, follower, following))
+                notesList.add(Item(login, id, avatarUrl, name, location, email, repo, follower, following))
             }
         }
         return notesList

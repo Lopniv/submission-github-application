@@ -2,12 +2,15 @@ package com.android.submission2github.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import com.android.submission2github.R
 import com.android.submission2github.databinding.ActivitySearchBinding
 import com.android.submission2github.utils.Utils
+import kotlinx.android.synthetic.main.activity_search.view.*
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var b : ActivitySearchBinding
 
@@ -15,7 +18,12 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         b = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(b.root)
+        setClickListener()
         inputUsername()
+    }
+
+    private fun setClickListener() {
+        b.btnSetting.setOnClickListener(this)
     }
 
     private fun inputUsername(){
@@ -39,6 +47,16 @@ class SearchActivity : AppCompatActivity() {
                 search.putExtra("USERNAME", b.etSearchUser.text.toString().trim())
                 startActivity(search)
             }
+        }
+    }
+
+    private fun setting() {
+        startActivity(Intent(this, SettingActivity::class.java))
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.btn_setting -> setting()
         }
     }
 }
