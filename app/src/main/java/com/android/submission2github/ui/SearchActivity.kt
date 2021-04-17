@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.submission2github.R
 import com.android.submission2github.databinding.ActivitySearchBinding
 import com.android.submission2github.utils.Utils
-import kotlinx.android.synthetic.main.activity_search.view.*
 
 class SearchActivity : AppCompatActivity(), View.OnClickListener {
 

@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.android.submission2github.R
 import com.android.submission2github.adapter.PagerAdapter
 import com.android.submission2github.databinding.ActivityDetailBinding
-import com.android.submission2github.db.UserFavoriteHelper
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.CONTENT_URI
 import com.android.submission2github.helper.MappingHelper
 import com.android.submission2github.model.Item
 import com.android.submission2github.utils.Utils.addFavoriteUser
@@ -67,6 +67,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         status = intent.getStringExtra(INTENT)
         if (status == "FAVORITE"){
             item = intent.getParcelableExtra(KEY_DETAIL_DATA)
+            detailItem = item
             b.loadingView.visibility = GONE
             username = item?.login
             item?.let { setupItem(it) }
@@ -119,12 +120,9 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     private fun checkUserFavorite(item: Item, context: Context) {
         var itemList: ArrayList<Item>
         var favoriteList: ArrayList<Item>
-        var favoriteHelper: UserFavoriteHelper
         GlobalScope.launch(Dispatchers.Main) {
-            favoriteHelper = UserFavoriteHelper.getInstance(context)
-            favoriteHelper.open()
             val deferredNotes = async(Dispatchers.IO) {
-                val cursor = favoriteHelper.queryAll()
+                val cursor = contentResolver.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             itemList = deferredNotes.await()
@@ -133,7 +131,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             } else {
                 ArrayList()
             }
-            favoriteHelper.close()
             if (favoriteList.any {it.id == item.id}){
                 b.btnAddFavorite.setColorFilter(ContextCompat.getColor(context, R.color.red))
             }
@@ -148,7 +145,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.btn_add_favorite -> detailItem?.let {
-                addFavoriteUser(it, this, b.root, true)
+                addFavoriteUser(it, b.root, true, this)
                 b.btnAddFavorite.setColorFilter(ContextCompat.getColor(this, R.color.red))
             }
         }

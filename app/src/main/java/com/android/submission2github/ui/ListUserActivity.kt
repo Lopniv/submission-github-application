@@ -17,7 +17,6 @@ import com.android.submission2github.ui.DetailActivity.Companion.INTENT
 import com.android.submission2github.ui.DetailActivity.Companion.KEY_DETAIL_DATA
 import com.android.submission2github.utils.Utils
 import com.android.submission2github.viewmodel.SearchUserViewModel
-import kotlinx.android.synthetic.main.activity_list_user.*
 
 class ListUserActivity : AppCompatActivity(), UserListListener, View.OnClickListener {
 

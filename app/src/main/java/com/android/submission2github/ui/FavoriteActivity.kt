@@ -12,7 +12,7 @@ import com.android.submission2github.adapter.FavoriteUserAdapter
 import com.android.submission2github.adapter.RemoveUserListener
 import com.android.submission2github.adapter.UserListListener
 import com.android.submission2github.databinding.ActivityFavoriteBinding
-import com.android.submission2github.db.UserFavoriteHelper
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.CONTENT_URI
 import com.android.submission2github.helper.MappingHelper
 import com.android.submission2github.model.Item
 import com.android.submission2github.utils.Utils
@@ -27,7 +27,6 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
     private var itemList: ArrayList<Item>? = null
     private var favoriteList: ArrayList<Item>? = null
 
-    private lateinit var favoriteHelper: UserFavoriteHelper
     private lateinit var b: ActivityFavoriteBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,17 +34,12 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
         b = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(b.root)
         setClickListener()
-        initiateValue()
         setupRecyclerView(false)
     }
 
     private fun setClickListener() {
         b.btnEdit.setOnClickListener(this)
         b.btnCancel.setOnClickListener(this)
-    }
-
-    private fun initiateValue(){
-        favoriteHelper = UserFavoriteHelper.getInstance(this)
     }
 
     private fun setupRecyclerView(isEdit: Boolean) {
@@ -61,9 +55,8 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun loadFavoriteAsync() {
         GlobalScope.launch(Dispatchers.Main) {
-            favoriteHelper.open()
             val deferredNotes = async(Dispatchers.IO) {
-                val cursor = favoriteHelper.queryAll()
+                val cursor = contentResolver.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             itemList = deferredNotes.await()
@@ -77,7 +70,12 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun loadData() {
-        favoriteList?.let { favoriteUserAdapter?.updateUsers(it) }
+        if (favoriteList?.size!! > 0){
+            favoriteList?.let { favoriteUserAdapter?.updateUsers(it) }
+            b.tvNotFound.visibility = INVISIBLE
+        } else {
+            b.tvNotFound.visibility = VISIBLE
+        }
     }
 
     override fun onClick(v: View?) {

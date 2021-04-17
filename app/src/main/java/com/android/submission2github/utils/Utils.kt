@@ -1,13 +1,13 @@
 package com.android.submission2github.utils
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import com.android.submission2github.R
 import com.android.submission2github.db.DatabaseContract
-import com.android.submission2github.db.UserFavoriteHelper
+import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.CONTENT_URI
 import com.android.submission2github.helper.MappingHelper
 import com.android.submission2github.model.Item
 import com.google.android.material.snackbar.Snackbar
@@ -25,15 +25,12 @@ object Utils {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
 
-    fun addFavoriteUser(item: Item, context: Context, view: View, isInsert: Boolean) {
+    fun addFavoriteUser(item: Item, view: View, isInsert: Boolean, activity: Activity) {
         var itemList: ArrayList<Item>
         var favoriteList: ArrayList<Item>
-        var favoriteHelper: UserFavoriteHelper
         GlobalScope.launch(Dispatchers.Main) {
-            favoriteHelper = UserFavoriteHelper.getInstance(context)
-            favoriteHelper.open()
             val deferredNotes = async(Dispatchers.IO) {
-                val cursor = favoriteHelper.queryAll()
+                val cursor = activity.contentResolver.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             itemList = deferredNotes.await()
@@ -42,20 +39,17 @@ object Utils {
             } else {
                 ArrayList()
             }
-            favoriteHelper.close()
             if (isInsert){
                 if (favoriteList.any {it.id == item.id}){
                     showSnackbarMessage(view, "User is already in favorites")
                 } else {
-                    insertValue(item, favoriteHelper, view)
+                    insertValue(item, activity, view)
                 }
             }
         }
     }
 
-    private fun insertValue(item: Item, favoriteHelper: UserFavoriteHelper, view: View) {
-        favoriteHelper.open()
-
+    private fun insertValue(item: Item, activity: Activity, view: View) {
         val values = ContentValues()
         values.put(DatabaseContract.UserColumn._ID, item.id)
         values.put(DatabaseContract.UserColumn.LOGIN, item.login)
@@ -67,15 +61,13 @@ object Utils {
         values.put(DatabaseContract.UserColumn.FOLLOWERS, item.followers)
         values.put(DatabaseContract.UserColumn.FOLLOWING, item.following)
 
-        favoriteHelper.insert(values)
+        activity.contentResolver.insert(CONTENT_URI, values)
         showSnackbarMessage(view, "User has been successfully added to favorites")
     }
 
-    fun removeUser(context: Context, item: Item, view: View) {
-        val favoriteHelper = UserFavoriteHelper.getInstance(context)
-        favoriteHelper.open()
-        favoriteHelper.deleteFavorite(item.id)
+    fun removeUser(activity: Activity, item: Item, view: View) {
+        val uriWithId = Uri.parse(CONTENT_URI.toString() + "/" + item.id)
+        activity.contentResolver.delete(uriWithId, null, null)
         showSnackbarMessage(view, "User has been successfully deleted")
-        favoriteHelper.close()
     }
 }

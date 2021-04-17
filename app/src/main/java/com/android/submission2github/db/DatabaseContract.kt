@@ -1,8 +1,13 @@
 package com.android.submission2github.db
 
+import android.net.Uri
 import android.provider.BaseColumns
 
-class DatabaseContract {
+object DatabaseContract {
+
+    const val AUTHORITY = "com.android.submission2github"
+    const val SCHEME = "content"
+
     internal class UserColumn : BaseColumns {
         companion object {
             const val TABLE_NAME = "user"
@@ -15,6 +20,11 @@ class DatabaseContract {
             const val REPO = "repo"
             const val FOLLOWERS = "followers"
             const val FOLLOWING = "following"
+
+            val CONTENT_URI: Uri = Uri.Builder().scheme(SCHEME)
+                    .authority(AUTHORITY)
+                    .appendPath(TABLE_NAME)
+                    .build()
         }
     }
 }
