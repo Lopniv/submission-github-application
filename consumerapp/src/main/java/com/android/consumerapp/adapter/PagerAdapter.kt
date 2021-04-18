@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.android.consumerapp.ui.viewpager.FollowerFragment
 import com.android.consumerapp.ui.viewpager.FollowingFragment
 
-class PagerAdapter(fm: FragmentManager, var username: String): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+class PagerAdapter(fm: FragmentManager, username: String): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
 
     private val pages = listOf(
         FollowerFragment(username),

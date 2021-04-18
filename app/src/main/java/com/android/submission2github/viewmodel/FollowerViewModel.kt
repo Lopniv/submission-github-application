@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.android.submission2github.api.DaggerApiComponent
 import com.android.submission2github.api.UsersService
 import com.android.submission2github.model.Item
-import com.android.submission2github.model.SearchResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver

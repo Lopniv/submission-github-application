@@ -4,7 +4,6 @@ import android.app.PendingIntent
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import com.android.submission2github.R
 import com.android.submission2github.databinding.ActivitySettingBinding
 import com.android.submission2github.receiver.AlarmReceiver
@@ -13,7 +12,7 @@ import com.android.submission2github.receiver.AlarmReceiver.Companion.REPEATING
 
 class SettingActivity : AppCompatActivity() {
 
-    private val time: String = "09:00"
+    private val time: String = "11:43"
 
     private lateinit var alarmReceiver: AlarmReceiver
     private lateinit var b: ActivitySettingBinding

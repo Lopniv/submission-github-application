@@ -1,15 +1,13 @@
 package com.android.consumerapp.ui
 
 import android.content.Intent
-import android.database.ContentObserver
 import android.os.Bundle
-import android.os.Handler
-import android.os.HandlerThread
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.consumerapp.R
 import com.android.consumerapp.adapter.FavoriteUserAdapter
 import com.android.consumerapp.adapter.RemoveUserListener
@@ -24,7 +22,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
+class FavoriteActivity : AppCompatActivity(), View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private var favoriteUserAdapter: FavoriteUserAdapter? = null
     private var itemList: ArrayList<Item>? = null
@@ -43,9 +41,13 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
     private fun setClickListener() {
         b.btnEdit.setOnClickListener(this)
         b.btnCancel.setOnClickListener(this)
+        b.swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun setupRecyclerView(isEdit: Boolean) {
+        b.swipeRefreshLayout.isRefreshing = false
+        b.loadingView.visibility = VISIBLE
+        b.rvFavoriteList.visibility = INVISIBLE
         b.rvFavoriteList.apply {
             favoriteUserAdapter = FavoriteUserAdapter(arrayListOf(), isEdit)
             favoriteUserAdapter?.userListListener = onItemUserList
@@ -54,16 +56,6 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
             adapter = favoriteUserAdapter
         }
         loadFavoriteAsync()
-//        val handlerThread = HandlerThread("DataObserver")
-//        handlerThread.start()
-//        val handler = Handler(handlerThread.looper)
-//
-//        val myObserver = object : ContentObserver(handler) {
-//            override fun onChange(self: Boolean) {
-//                loadFavoriteAsync()
-//            }
-//        }
-//        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
     }
 
     private fun loadFavoriteAsync() {
@@ -85,8 +77,11 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
     private fun loadData() {
         if (favoriteList?.size!! > 0){
             favoriteList?.let { favoriteUserAdapter?.updateUsers(it) }
+            b.loadingView.visibility = INVISIBLE
+            b.rvFavoriteList.visibility = VISIBLE
             b.tvNotFound.visibility = INVISIBLE
         } else {
+            b.loadingView.visibility = INVISIBLE
             b.tvNotFound.visibility = VISIBLE
         }
     }
@@ -98,7 +93,7 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private val onItemUserList = object : UserListListener {
+    private val onItemUserList = object : UserListListener{
         override fun onItemUserList(view: View, item: Item, listItem: ArrayList<Item>) {
             val detail = Intent(this@FavoriteActivity, DetailActivity::class.java)
             detail.putExtra(DetailActivity.KEY_DETAIL_DATA, item)
@@ -124,5 +119,9 @@ class FavoriteActivity : AppCompatActivity(), View.OnClickListener {
         setupRecyclerView(true)
         b.btnEdit.visibility = INVISIBLE
         b.btnCancel.visibility = VISIBLE
+    }
+
+    override fun onRefresh() {
+        setupRecyclerView(false)
     }
 }

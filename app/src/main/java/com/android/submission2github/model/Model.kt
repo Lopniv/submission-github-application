@@ -2,7 +2,7 @@ package com.android.submission2github.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 data class SearchResponse(
     @SerializedName("total_count")

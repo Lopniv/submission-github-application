@@ -1,3 +1,5 @@
+@file:Suppress("SameParameterValue")
+
 package com.android.submission2github.receiver
 
 import android.app.AlarmManager
@@ -78,13 +80,12 @@ class AlarmReceiver : BroadcastReceiver() {
 
     fun setRepeatingAlarm(context: Context, type: String, time: String, message: String, view: View) {
 
-        // Validasi inputan waktu terlebih dahulu
         if (isDateInvalid(time, TIME_FORMAT)) return
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.putExtra(EXTRA_MESSAGE, message)
-        val putExtra = intent.putExtra(EXTRA_TYPE, type)
+        intent.putExtra(EXTRA_TYPE, type)
 
         val timeArray = time.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 

@@ -2,10 +2,8 @@ package com.android.submission2github.utils
 
 import android.app.Activity
 import android.content.ContentValues
-import android.content.Context
 import android.net.Uri
 import android.view.View
-import android.widget.Toast
 import com.android.submission2github.db.DatabaseContract
 import com.android.submission2github.db.DatabaseContract.UserColumn.Companion.CONTENT_URI
 import com.android.submission2github.helper.MappingHelper
@@ -17,10 +15,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 object Utils {
-    fun toast(context: Context, message: String){
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
     fun showSnackbarMessage(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
