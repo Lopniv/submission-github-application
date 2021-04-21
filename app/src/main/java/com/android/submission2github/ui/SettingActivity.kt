@@ -12,7 +12,7 @@ import com.android.submission2github.receiver.AlarmReceiver.Companion.REPEATING
 
 class SettingActivity : AppCompatActivity() {
 
-    private val time: String = "11:43"
+    private val time: String = "22:57"
 
     private lateinit var alarmReceiver: AlarmReceiver
     private lateinit var b: ActivitySettingBinding

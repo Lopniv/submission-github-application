@@ -15,6 +15,7 @@ import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.android.submission2github.R
+import com.android.submission2github.ui.SearchActivity
 import com.android.submission2github.utils.Utils
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -47,6 +48,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val channelId = "Channel_1"
         val channelName = "AlarmManager channel"
+        val intent = Intent(context, SearchActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
         val notificationManagerCompat = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -54,6 +58,7 @@ class AlarmReceiver : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_setting)
             .setContentTitle(title)
             .setContentText(message)
+            .setContentIntent(pendingIntent)
             .setColor(ContextCompat.getColor(context, android.R.color.transparent))
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
             .setSound(alarmSound)
